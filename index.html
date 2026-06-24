@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sift × Lyft — AI Goals Setup Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --cream: #f6f0e3;
+    --cream-bright: #fdf8ec;
+    --card: #fffdf6;
+    --navy: #2a2540;
+    --navy-70: #5a5470;
+    --navy-50: #837e96;
+    --lavender: #655999;
+    --lavender-soft: #efecf7;
+    --coral: #a04425;
+    --coral-soft: #f6e6df;
+    --green: #3f7d54;
+    --green-soft: #e6f0e8;
+    --border: #e4dcc9;
+    --border-strong: #d3c8af;
+    --shadow: 0 1px 2px rgba(42,37,64,.04), 0 8px 28px rgba(42,37,64,.06);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--cream);
+    color: var(--navy);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+  }
+  /* paper grain */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: .35;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.16 0 0 0 0 0.14 0 0 0 0 0.25 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: 920px; margin: 0 auto; padding: 0 24px; }
+
+  h1, h2, h3, .display { font-family: "Space Grotesk", sans-serif; letter-spacing: -.02em; }
+
+  /* ---------- hero ---------- */
+  header {
+    text-align: center;
+    padding: 80px 24px 56px;
+    position: relative;
+    z-index: 1;
+  }
+  .brandmark {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 20px;
+    color: var(--navy); margin-bottom: 36px;
+  }
+  .brandmark .dot {
+    width: 26px; height: 26px; border-radius: 8px;
+    background: var(--lavender);
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 15px; box-shadow: var(--shadow);
+  }
+  .eyebrow {
+    display: inline-block;
+    font-size: 12.5px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--lavender);
+    background: var(--lavender-soft);
+    padding: 6px 14px; border-radius: 999px; margin-bottom: 22px;
+  }
+  header h1 { font-size: clamp(34px, 6vw, 52px); font-weight: 700; line-height: 1.05; }
+  header h1 .accent { color: var(--coral); }
+  header p.lede {
+    max-width: 600px; margin: 22px auto 0; font-size: 18px; color: var(--navy-70);
+  }
+  .meta-row {
+    margin-top: 32px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+  }
+  .pill {
+    font-size: 13px; font-weight: 500; color: var(--navy-70);
+    background: var(--card); border: 1px solid var(--border);
+    padding: 7px 14px; border-radius: 999px;
+  }
+
+  /* ---------- sections ---------- */
+  section { padding: 30px 0; position: relative; z-index: 1; }
+  .section-head { margin-bottom: 26px; }
+  .section-head .kicker {
+    font-size: 12.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--lavender); margin-bottom: 10px;
+  }
+  .section-head h2 { font-size: clamp(24px, 4vw, 32px); font-weight: 600; }
+  .section-head p { margin-top: 10px; font-size: 16.5px; color: var(--navy-70); max-width: 640px; }
+
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 26px; box-shadow: var(--shadow);
+  }
+
+  /* what are goals */
+  .explain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+  .explain-item { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 22px; }
+  .explain-item .ico { font-size: 22px; margin-bottom: 12px; display:block; }
+  .explain-item h3 { font-size: 16.5px; font-weight: 600; margin-bottom: 6px; }
+  .explain-item p { font-size: 14.5px; color: var(--navy-70); }
+
+  /* breadcrumb / where to find */
+  .breadcrumb {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+    font-family: "Space Grotesk", sans-serif; font-weight: 600;
+    background: var(--cream-bright); border: 1px solid var(--border);
+    border-radius: 14px; padding: 18px 20px; margin-bottom: 18px;
+  }
+  .breadcrumb .crumb {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 7px 13px; border-radius: 9px; font-size: 15px;
+    background: #fff; border: 1px solid var(--border); color: var(--navy);
+  }
+  .breadcrumb .crumb.final { background: var(--lavender); color: #fff; border-color: var(--lavender); }
+  .breadcrumb .arrow { color: var(--navy-50); font-size: 14px; }
+
+  /* numbered steps */
+  ol.steps { list-style: none; counter-reset: step; display: grid; gap: 14px; }
+  ol.steps li {
+    counter-increment: step; position: relative;
+    padding: 18px 20px 18px 64px;
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+  }
+  ol.steps li::before {
+    content: counter(step);
+    position: absolute; left: 18px; top: 16px;
+    width: 32px; height: 32px; border-radius: 9px;
+    background: var(--lavender-soft); color: var(--lavender);
+    font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 15px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  ol.steps li h3 { font-size: 16px; font-weight: 600; margin-bottom: 3px; }
+  ol.steps li p { font-size: 14.5px; color: var(--navy-70); }
+  ol.steps li .field { font-weight: 600; color: var(--navy); }
+
+  .tip {
+    margin-top: 16px;
+    background: var(--lavender-soft); border: 1px solid #ddd6ef;
+    border-radius: 14px; padding: 16px 20px; font-size: 14.5px; color: var(--navy);
+  }
+  .tip strong { color: var(--lavender); }
+
+  /* phase header */
+  .phase-head { display: flex; align-items: center; gap: 12px; margin: 38px 0 18px; }
+  .phase-badge {
+    font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 13px;
+    padding: 6px 14px; border-radius: 999px; white-space: nowrap;
+  }
+  .phase-1 { background: var(--coral-soft); color: var(--coral); }
+  .phase-2 { background: var(--lavender-soft); color: var(--lavender); }
+  .phase-3 { background: var(--green-soft); color: var(--green); }
+  .phase-head .phase-title { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: 18px; }
+  .phase-head .phase-sub { font-size: 14px; color: var(--navy-50); }
+
+  /* goal cards */
+  .goal {
+    background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+    padding: 24px; margin-bottom: 16px; box-shadow: var(--shadow);
+  }
+  .goal-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .goal-name { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: 19px; }
+  .goal-num {
+    display:inline-flex; align-items:center; justify-content:center;
+    width: 28px; height: 28px; border-radius: 8px; margin-right: 10px;
+    background: var(--navy); color: var(--cream); font-size: 14px; font-weight: 700;
+    font-family: "Space Grotesk", sans-serif; vertical-align: middle;
+  }
+  .runs-on {
+    font-size: 13px; color: var(--navy-70); background: var(--cream);
+    border: 1px solid var(--border); padding: 6px 12px; border-radius: 9px;
+    white-space: nowrap;
+  }
+  .runs-on b { color: var(--navy); font-weight: 600; }
+  .goal-desc { margin: 14px 0 16px; font-size: 15px; color: var(--navy-70); }
+  .goal-meta { display: flex; gap: 22px; flex-wrap: wrap; padding-top: 16px; border-top: 1px dashed var(--border-strong); }
+  .goal-meta .label {
+    font-size: 11.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--navy-50); margin-bottom: 8px;
+  }
+  .chips { display: flex; gap: 7px; flex-wrap: wrap; }
+  .chip {
+    font-size: 12.5px; font-weight: 500; color: var(--navy);
+    background: var(--cream); border: 1px solid var(--border-strong);
+    padding: 5px 11px; border-radius: 7px;
+  }
+  .chip.coral { background: var(--coral-soft); border-color: #e6c6b8; color: var(--coral); }
+  .badge-reply {
+    display:inline-block; font-size: 12.5px; font-weight: 600;
+    padding: 5px 12px; border-radius: 7px;
+  }
+  .r-approve { background: var(--lavender-soft); color: var(--lavender); }
+  .r-auto { background: var(--green-soft); color: var(--green); }
+  .r-none { background: var(--cream); color: var(--navy-50); border: 1px solid var(--border); }
+
+  /* copy-brief button */
+  .goal-brief { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 2px 0 18px; }
+  .copy-btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-family: "Inter", sans-serif; font-size: 13.5px; font-weight: 600;
+    color: #fff; background: var(--lavender); border: none; border-radius: 9px;
+    padding: 9px 16px; cursor: pointer; transition: background .15s, transform .1s;
+  }
+  .copy-btn:hover { background: #564c85; }
+  .copy-btn:active { transform: translateY(1px); }
+  .copy-btn.copied { background: var(--green); }
+  .copy-btn .ci { font-size: 15px; line-height: 1; }
+  .copy-note { font-size: 13px; color: var(--navy-50); }
+  .copy-note b { color: var(--navy-70); font-weight: 600; }
+  .brief-text { display: none; }
+
+  /* how-to-use box */
+  .howto-box { background: var(--lavender-soft); border: 1px solid #ddd6ef; border-radius: 16px; padding: 24px 26px; margin-bottom: 30px; }
+  .howto-box h3 { font-family: "Space Grotesk", sans-serif; font-size: 17px; font-weight: 600; color: var(--navy); margin-bottom: 14px; }
+  .howto-box ol { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+  .howto-box li { font-size: 14.5px; color: var(--navy-70); }
+  .howto-box li b { color: var(--navy); }
+
+  /* rollout timeline */
+  .timeline { display: grid; gap: 0; }
+  .tl-item { position: relative; padding: 0 0 26px 38px; border-left: 2px solid var(--border-strong); }
+  .tl-item:last-child { border-left-color: transparent; padding-bottom: 0; }
+  .tl-item::before {
+    content: ""; position: absolute; left: -8px; top: 2px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--lavender); border: 3px solid var(--cream);
+  }
+  .tl-item h3 { font-family: "Space Grotesk", sans-serif; font-size: 17px; font-weight: 600; margin-bottom: 5px; }
+  .tl-item .when { font-size: 12.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--coral); margin-bottom: 4px; }
+  .tl-item p { font-size: 14.5px; color: var(--navy-70); }
+
+  /* control grid */
+  .control-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 14px; }
+  .control-item { display: flex; gap: 13px; align-items: flex-start; padding: 18px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; }
+  .control-item .ck { color: var(--green); font-weight: 700; font-size: 18px; flex-shrink: 0; line-height: 1.4; }
+  .control-item h3 { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
+  .control-item p { font-size: 13.5px; color: var(--navy-70); }
+
+  /* callout */
+  .callout {
+    background: var(--navy); color: var(--cream); border-radius: 18px;
+    padding: 36px; text-align: center; box-shadow: var(--shadow);
+  }
+  .callout h2 { font-size: 26px; font-weight: 600; margin-bottom: 12px; }
+  .callout p { color: rgba(246,240,227,.78); font-size: 16px; max-width: 560px; margin: 0 auto; }
+
+  footer {
+    text-align: center; padding: 48px 24px 60px; position: relative; z-index: 1;
+    color: var(--navy-50); font-size: 13.5px;
+  }
+  footer .brandmark { font-size: 16px; margin-bottom: 14px; }
+
+  a { color: var(--lavender); }
+
+  @media (max-width: 560px) {
+    .goal-meta { gap: 16px; }
+    header { padding-top: 56px; }
+  }
+  @media print {
+    body::before { display: none; }
+    .goal, .card, .callout { box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brandmark"><span class="dot">✦</span> Sift</div>
+  <div class="eyebrow">Setup Guide · Prepared for Lyft</div>
+  <h1>Put your inbox on <span class="accent">autopilot</span><br/>with AI Goals</h1>
+  <p class="lede">AI Goals let Sift read every incoming case across your channels and take the actions you allow — drafting replies, tagging, routing, and escalating — all inside the guardrails you set.</p>
+  <div class="meta-row">
+    <span class="pill">Works across X, Instagram, Reddit, Facebook, TikTok, Threads &amp; app reviews</span>
+    <span class="pill">Built on the saved searches your team already uses</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- WHAT -->
+  <section>
+    <div class="section-head">
+      <div class="kicker">The idea</div>
+      <h2>What is an AI Goal?</h2>
+      <p>Think of a goal as a teammate you brief once. You tell it which conversations to watch, what you want it to achieve, and exactly which actions it's allowed to take. Then it works every matching case, around the clock — and shows you everything it did.</p>
+    </div>
+    <div class="explain-grid">
+      <div class="explain-item">
+        <span class="ico">🎯</span>
+        <h3>You choose where it runs</h3>
+        <p>Point a goal at one of your saved searches — like <em>Lost item</em> or <em>App store</em> — so it only acts on the cases you mean.</p>
+      </div>
+      <div class="explain-item">
+        <span class="ico">✍️</span>
+        <h3>You describe the outcome</h3>
+        <p>Write what you want in plain English — or click <b>Draft my goal</b> and let Sift write the instructions for you.</p>
+      </div>
+      <div class="explain-item">
+        <span class="ico">🛡️</span>
+        <h3>You set the boundaries</h3>
+        <p>Tick only the actions it may take. Every customer reply is drafted for one of your agents to review and send.</p>
+      </div>
+      <div class="explain-item">
+        <span class="ico">📊</span>
+        <h3>You see everything</h3>
+        <p>A live activity feed shows every case a goal touched, what it decided, and why — so you stay in control.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHERE -->
+  <section>
+    <div class="section-head">
+      <div class="kicker">Step 1</div>
+      <h2>Where to find AI Goals</h2>
+      <p>Everything lives in one place inside Sift. From anywhere in the app, follow this path:</p>
+    </div>
+    <div class="breadcrumb">
+      <span class="crumb">⚙️ Settings</span>
+      <span class="arrow">›</span>
+      <span class="crumb">Automation</span>
+      <span class="arrow">›</span>
+      <span class="crumb">Workflows</span>
+      <span class="arrow">›</span>
+      <span class="crumb final">AI Goals</span>
+    </div>
+    <div class="card">
+      <p style="font-size:15px;color:var(--navy-70)">Open <b>Settings</b> from the bottom of the left sidebar, choose the <b>Automation</b> section, and open <b>Workflows</b>. You'll see three tabs — <b>AI&nbsp;Goals</b>, <b>Rules</b>, and <b>Schedules</b>. Stay on <b>AI&nbsp;Goals</b>. Every goal you create lives here, and you can switch any of them on or off at any time.</p>
+    </div>
+  </section>
+
+  <!-- HOW -->
+  <section>
+    <div class="section-head">
+      <div class="kicker">Step 2</div>
+      <h2>How to create a goal</h2>
+      <p>Click <b>+ New goal</b> on the AI Goals tab. You'll fill in a short, friendly form — here's what each part means.</p>
+    </div>
+    <ol class="steps">
+      <li>
+        <h3><span class="field">Name</span></h3>
+        <p>What you'll call this goal, e.g. <em>"Lost Item Assistant."</em> Just for your team.</p>
+      </li>
+      <li>
+        <h3><span class="field">Applies to</span> — pick a saved search</h3>
+        <p>Choose which conversations the goal runs on. Leave it blank and it runs on every case; pick a saved search to narrow it down. <strong>We've already mapped each recommended goal below to a search you already have.</strong></p>
+      </li>
+      <li>
+        <h3><span class="field">Instructions</span> — what it should do</h3>
+        <p>Describe the goal in plain language. Type <b>@</b> to reference your tags, queues, channels, or knowledge base. Not sure how to phrase it? Click <b>Draft my goal</b> and Sift writes a first version for you to tweak.</p>
+      </li>
+      <li>
+        <h3><span class="field">What it can do</span> — tick the allowed actions</h3>
+        <p>The goal can <em>only</em> do what you check here: <b>Draft a reply</b>, <b>Use saved responses</b>, <b>Add note</b>, <b>Add tag</b>, <b>Assign agent</b>, <b>Move to queue</b>, <b>Close case</b>, or <b>Notify Slack</b>. Nothing else.</p>
+      </li>
+      <li>
+        <h3><span class="field">Research tools</span> — Knowledge Base</h3>
+        <p>Switch this on to let the goal search your Help Center before it answers, so replies are grounded in your real policies and articles.</p>
+      </li>
+      <li>
+        <h3><span class="field">Review</span> — your team always sends</h3>
+        <p>When a goal drafts a reply, it lands in your team's review queue. An agent reads it, edits if needed, and sends — so a person is always the one who replies to your customers.</p>
+      </li>
+      <li>
+        <h3>Turn it <span class="field">Active</span></h3>
+        <p>Flip the toggle from <b>Paused</b> to <b>Active</b> and the goal starts working new cases right away. Flip it back any time to pause instantly.</p>
+      </li>
+    </ol>
+    <div class="tip">
+      <strong>💡 Tip — "How Sift reads this":</strong> as you edit, a live preview shows exactly how Sift will interpret your goal in one plain sentence (e.g. <em>"When a case matches 'Lost item' → it may draft a reply, add a tag, move to queue"</em>). No surprises.
+    </div>
+  </section>
+
+  <!-- RECOMMENDED GOALS -->
+  <section>
+    <div class="section-head">
+      <div class="kicker">Step 3</div>
+      <h2>Your recommended starter goals</h2>
+      <p>Six goals to begin with, each wired to a saved search and queue your team already has. We've grouped them into three phases so you can start safe and expand as your confidence grows.</p>
+    </div>
+
+    <div class="howto-box">
+      <h3>📋 How to set one up — copy &amp; paste into “Draft my goal”</h3>
+      <ol>
+        <li>On the <b>AI&nbsp;Goals</b> tab, click <b>+ New goal</b>.</li>
+        <li>On any goal below, press <b>Copy goal brief</b>. Back in Sift, click <b>Draft my goal</b> and paste it in — Sift writes the full goal for you in seconds.</li>
+        <li>Set <b>Applies to</b> to the saved search named on the card, and tick the actions listed under <b>What it can do</b>.</li>
+        <li>Check the one-line <b>“How Sift reads this”</b> preview, then <b>Save</b> and switch it to <b>Active</b>. That's it.</li>
+      </ol>
+    </div>
+
+    <!-- PHASE 1 -->
+    <div class="phase-head">
+      <span class="phase-badge phase-1">Phase 1</span>
+      <div>
+        <div class="phase-title">Protect &amp; triage</div>
+        <div class="phase-sub">Start here · turn these on first</div>
+      </div>
+    </div>
+
+    <div class="goal">
+      <div class="goal-top">
+        <div class="goal-name"><span class="goal-num">1</span>Safety &amp; High-Priority Escalation</div>
+        <span class="runs-on">Runs on <b>High Priority (Lost or Safety)</b></span>
+      </div>
+      <p class="goal-desc">Recognizes safety-critical situations the moment they come in, writes a clear internal summary, tags it, routes it to your <b>HQ&nbsp;Only</b> queue, and pings the team in Slack. It never replies to the customer on its own and never makes promises — a person always handles these. This goal takes priority over all the others.</p>
+      <div class="goal-brief">
+        <pre class="brief-text" hidden>This goal handles safety-critical cases: anything involving physical safety, injury, an accident, assault, harassment, a minor at risk, or a serious threat. Do not reply to the customer and do not make any promises. Write one clear internal note summarizing what happened and what we know, add an urgent tag, move the case to the HQ Only queue, and send a Slack notification to the safety channel so a person picks it up immediately. This goal takes priority over every other goal.</pre>
+        <button class="copy-btn" onclick="copyBrief(this)"><span class="ci">⧉</span> Copy goal brief</button>
+        <span class="copy-note">Paste into the <b>Draft my goal</b> box in Sift</span>
+      </div>
+      <div class="goal-meta">
+        <div>
+          <div class="label">What it can do</div>
+          <div class="chips">
+            <span class="chip">Add note</span><span class="chip">Add tag</span><span class="chip">Move to queue</span><span class="chip">Notify Slack</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="goal">
+      <div class="goal-top">
+        <div class="goal-name"><span class="goal-num">2</span>Lost Item Assistant</div>
+        <span class="runs-on">Runs on <b>Lost item</b></span>
+      </div>
+      <p class="goal-desc">Drafts the standard "here's how to get your item back" reply using your Help Center, tags the case, and routes it to support. One of your highest-volume, most repetitive request types — perfect for a consistent first response every time. If a lost-item case is really about safety, it hands off to Goal&nbsp;1.</p>
+      <div class="goal-brief">
+        <pre class="brief-text" hidden>This goal helps riders who left an item in a Lyft vehicle. Draft one friendly, concise reply that walks the rider through reporting a lost item in the Lyft app (open Ride history, select the trip, tap Find Lost Item, then contact the driver), using our Help Center for the exact steps. Match the rider's language. Add a lost-item tag and route the case to the support queue. Never promise the item will be found and never offer compensation. If the message is actually about a safety incident, take no action and let the safety goal handle it.</pre>
+        <button class="copy-btn" onclick="copyBrief(this)"><span class="ci">⧉</span> Copy goal brief</button>
+        <span class="copy-note">Paste into the <b>Draft my goal</b> box in Sift</span>
+      </div>
+      <div class="goal-meta">
+        <div>
+          <div class="label">What it can do</div>
+          <div class="chips">
+            <span class="chip coral">Draft a reply</span><span class="chip">Use saved responses</span><span class="chip">Add tag</span><span class="chip">Move to queue</span>
+          </div>
+        </div>
+        <div>
+          <div class="label">Knowledge Base</div>
+          <span class="badge-reply r-auto">On</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="goal">
+      <div class="goal-top">
+        <div class="goal-name"><span class="goal-num">3</span>Driver Deactivation-Appeal Router</div>
+        <span class="runs-on">Runs on <b>Deactivation appeals</b></span>
+      </div>
+      <p class="goal-desc">Summarizes each appeal in a clean internal note, tags it, and routes it to the right team so nothing sits unseen. It never promises reinstatement and never states account status — it sets your team up to make the call quickly.</p>
+      <div class="goal-brief">
+        <pre class="brief-text" hidden>This goal handles drivers appealing a deactivation. Do not reply to the driver. Write a short internal note summarizing the appeal and any details the driver provided, add a deactivation-appeal tag, and route the case to the driver support and appeals queue. Never promise reinstatement, never state or guess the account status, and never share internal reasons for the deactivation.</pre>
+        <button class="copy-btn" onclick="copyBrief(this)"><span class="ci">⧉</span> Copy goal brief</button>
+        <span class="copy-note">Paste into the <b>Draft my goal</b> box in Sift</span>
+      </div>
+      <div class="goal-meta">
+        <div>
+          <div class="label">What it can do</div>
+          <div class="chips">
+            <span class="chip">Add note</span><span class="chip">Add tag</span><span class="chip">Move to queue</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="phase-head">
+      <span class="phase-badge phase-2">Phase 2</span>
+      <div>
+        <div class="phase-title">Answer &amp; engage</div>
+        <div class="phase-sub">Turn on once you're happy with the drafted replies</div>
+      </div>
+    </div>
+
+    <div class="goal">
+      <div class="goal-top">
+        <div class="goal-name"><span class="goal-num">4</span>Rider Support — Answer from your Help Center</div>
+        <span class="runs-on">Runs on your support &amp; DM searches</span>
+      </div>
+      <p class="goal-desc">For common questions — account access, app help, basic charges, how-to — it drafts one concise reply that cites your Help Center and <b>matches the customer's language</b>. Anything that needs an account lookup, or mentions lost funds, is handed straight to a person. This drops into the exact draft-and-approve flow your team runs today — Sift just writes the first version.</p>
+      <div class="goal-brief">
+        <pre class="brief-text" hidden>This goal answers common rider questions such as account access, app problems, how to use a feature, and basic billing questions. Draft one concise, friendly reply grounded in our Help Center, and match the customer's language. Only say what our Help Center supports; never invent policies, refunds, or steps. If the question needs an account lookup, involves a disputed or unauthorized charge, or mentions lost funds, do not answer it: leave it for a person and add a note explaining what is needed.</pre>
+        <button class="copy-btn" onclick="copyBrief(this)"><span class="ci">⧉</span> Copy goal brief</button>
+        <span class="copy-note">Paste into the <b>Draft my goal</b> box in Sift</span>
+      </div>
+      <div class="goal-meta">
+        <div>
+          <div class="label">What it can do</div>
+          <div class="chips">
+            <span class="chip coral">Draft a reply</span><span class="chip">Use saved responses</span>
+          </div>
+        </div>
+        <div>
+          <div class="label">Knowledge Base</div>
+          <span class="badge-reply r-auto">On</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="goal">
+      <div class="goal-top">
+        <div class="goal-name"><span class="goal-num">5</span>App-Store &amp; Play-Store Review Responder</div>
+        <span class="runs-on">Runs on <b>App store</b> → <b>App review</b></span>
+      </div>
+      <p class="goal-desc">Sorts each review — bug, performance, feature request, praise, or possible safety — tags it, routes it to the right place, and drafts a short, in-language response for negative reviews. Turns a noisy review stream into organized, ready-to-send replies.</p>
+      <div class="goal-brief">
+        <pre class="brief-text" hidden>This goal handles App Store and Google Play reviews. Read each review and classify it as a bug, a performance issue, a feature request, praise, or a possible safety or fund-loss concern, and add the matching tag. Route the case to the right place based on that classification. For negative reviews, draft a short, genuine reply in the reviewer's language that acknowledges the issue and points them to support. Never promise a fix or a timeline. If a review describes lost money or a safety issue, hand it to the safety goal.</pre>
+        <button class="copy-btn" onclick="copyBrief(this)"><span class="ci">⧉</span> Copy goal brief</button>
+        <span class="copy-note">Paste into the <b>Draft my goal</b> box in Sift</span>
+      </div>
+      <div class="goal-meta">
+        <div>
+          <div class="label">What it can do</div>
+          <div class="chips">
+            <span class="chip coral">Draft a reply</span><span class="chip">Add tag</span><span class="chip">Move to queue</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="phase-head">
+      <span class="phase-badge phase-3">Phase 3</span>
+      <div>
+        <div class="phase-title">Keep the inbox clean</div>
+        <div class="phase-sub">Quiet background tidy-up · no customer messages</div>
+      </div>
+    </div>
+
+    <div class="goal">
+      <div class="goal-top">
+        <div class="goal-name"><span class="goal-num">6</span>Close-Out Irrelevant &amp; Resolved</div>
+        <span class="runs-on">Runs on <b>Irrelevant Conversations</b></span>
+      </div>
+      <p class="goal-desc">Tags and closes conversations that are clearly off-topic or already resolved — but only when it's obviously safe to do so. It never sends a customer message; it just keeps your queues focused on what actually needs a person.</p>
+      <div class="goal-brief">
+        <pre class="brief-text" hidden>This goal keeps the queues tidy. When a conversation is clearly off-topic, spam, or already resolved, add the matching close-reason tag and close it. Only act when it is obvious; if there is any doubt about whether the issue is resolved, leave it open. Never send a message to the customer.</pre>
+        <button class="copy-btn" onclick="copyBrief(this)"><span class="ci">⧉</span> Copy goal brief</button>
+        <span class="copy-note">Paste into the <b>Draft my goal</b> box in Sift</span>
+      </div>
+      <div class="goal-meta">
+        <div>
+          <div class="label">What it can do</div>
+          <div class="chips">
+            <span class="chip">Add tag</span><span class="chip">Close case</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROLLOUT -->
+  <section>
+    <div class="section-head">
+      <div class="kicker">The plan</div>
+      <h2>A simple rollout</h2>
+      <p>You don't flip everything on at once. Build trust in stages.</p>
+    </div>
+    <div class="card">
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="when">Week 1</div>
+          <h3>Turn on Goals 1–3</h3>
+          <p>Safety escalation, lost items, and deactivation routing. Watch the <b>Goal Activity</b> feed to see exactly what each goal does on real cases — and every drafted reply waits in your team's review queue, so nothing reaches a customer without an agent.</p>
+        </div>
+        <div class="tl-item">
+          <div class="when">Weeks 2–3</div>
+          <h3>Add Goals 4–5 once the drafts look right</h3>
+          <p>Rider support answers and app-review responses. They land in the same approve / decline queue your agents already use, so it feels familiar from day one.</p>
+        </div>
+        <div class="tl-item">
+          <div class="when">Ongoing</div>
+          <h3>Switch on Goal 6 and keep refining</h3>
+          <p>Let close-out keep your queues tidy in the background, and fine-tune each goal's instructions as your team learns what works. Your agents stay in the loop on every customer reply, start to finish.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTROL -->
+  <section>
+    <div class="section-head">
+      <div class="kicker">Peace of mind</div>
+      <h2>You're always in control</h2>
+    </div>
+    <div class="control-grid">
+      <div class="control-item">
+        <span class="ck">✓</span>
+        <div><h3>Nothing goes out without you</h3><p>Every customer reply Sift writes is a draft your team reviews and sends — Sift never messages a customer on its own.</p></div>
+      </div>
+      <div class="control-item">
+        <span class="ck">✓</span>
+        <div><h3>Pause in one click</h3><p>Flip any goal from Active to Paused instantly. It stops on the next case.</p></div>
+      </div>
+      <div class="control-item">
+        <span class="ck">✓</span>
+        <div><h3>Full transparency</h3><p>The Goal Activity tab shows every run — what it did, on which case, and why.</p></div>
+      </div>
+      <div class="control-item">
+        <span class="ck">✓</span>
+        <div><h3>Only what you allow</h3><p>A goal can never take an action you didn't tick — no exceptions.</p></div>
+      </div>
+      <div class="control-item">
+        <span class="ck">✓</span>
+        <div><h3>Adjust any time</h3><p>Tweak the instructions or change which saved search a goal applies to whenever you like.</p></div>
+      </div>
+      <div class="control-item">
+        <span class="ck">✓</span>
+        <div><h3>It knows when to step back</h3><p>If a goal isn't confident, it leaves the case for your team rather than guessing.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALLOUT -->
+  <section>
+    <div class="callout">
+      <h2>Ready when you are</h2>
+      <p>We'll set up your first three goals together on a quick call, walk your team through the activity feed, and tune the instructions to sound like Lyft. From there, you're in the driver's seat.</p>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="brandmark"><span class="dot" style="width:22px;height:22px;font-size:13px;">✦</span> Sift</div>
+  <div>Prepared for the Lyft Social &amp; Support team · AI Goals Setup Guide</div>
+  <div style="margin-top:6px;">Questions? Your Sift team is one message away.</div>
+</footer>
+
+<script>
+  function copyBrief(btn) {
+    var pre = btn.parentElement.querySelector(".brief-text");
+    var text = (pre ? pre.textContent : "").trim();
+    var orig = btn.innerHTML;
+    var finish = function () {
+      btn.innerHTML = '<span class="ci">✓</span> Copied!';
+      btn.classList.add("copied");
+      setTimeout(function () {
+        btn.innerHTML = orig;
+        btn.classList.remove("copied");
+      }, 1800);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(finish, function () {
+        fallbackCopy(text);
+        finish();
+      });
+    } else {
+      fallbackCopy(text);
+      finish();
+    }
+  }
+  function fallbackCopy(text) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try { document.execCommand("copy"); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+</script>
+
+</body>
+</html>
