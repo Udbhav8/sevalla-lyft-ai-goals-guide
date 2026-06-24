@@ -231,6 +231,21 @@
   .howto-box li { font-size: 14.5px; color: var(--navy-70); }
   .howto-box li b { color: var(--navy); }
 
+  /* per-goal setup / routing strip */
+  .setup-note {
+    margin: -2px 0 16px;
+    font-size: 13px; line-height: 1.6; color: var(--navy-70);
+    background: var(--cream); border: 1px solid var(--border);
+    border-left: 3px solid var(--lavender);
+    border-radius: 8px; padding: 10px 14px;
+  }
+  .setup-note b { color: var(--navy); font-weight: 600; }
+  .setup-note .q {
+    color: var(--lavender); font-weight: 600;
+    background: var(--lavender-soft); border-radius: 4px; padding: 1px 6px;
+  }
+  .setup-note .warn { color: var(--coral); font-weight: 600; }
+
   /* rollout timeline */
   .timeline { display: grid; gap: 0; }
   .tl-item { position: relative; padding: 0 0 26px 38px; border-left: 2px solid var(--border-strong); }
@@ -418,7 +433,8 @@
         <div class="goal-name"><span class="goal-num">1</span>Safety &amp; High-Priority Escalation</div>
         <span class="runs-on">Runs on <b>High Priority (Lost or Safety)</b></span>
       </div>
-      <p class="goal-desc">Recognizes safety-critical situations the moment they come in, writes a clear internal summary, tags it, routes it to your <b>HQ&nbsp;Only</b> queue, and pings the team in Slack. It never replies to the customer on its own and never makes promises — a person always handles these. This goal takes priority over all the others.</p>
+      <p class="goal-desc">Recognizes safety-critical situations the moment they come in, writes a clear internal summary, tags it, moves the case out of the public queue into your <b>HQ&nbsp;Only</b> queue, and pings the team in Slack. It never replies to the customer on its own and never makes promises — a person always handles these. This goal takes priority over all the others.</p>
+      <div class="setup-note"><b>Setup &amp; routing:</b> scope it to the <b>High Priority (Lost or Safety)</b> saved search · moves cases into the <span class="q">HQ Only</span> queue · needs a Slack channel connected so it can post safety alerts.</div>
       <div class="goal-brief">
         <pre class="brief-text" hidden>This goal handles safety-critical cases: anything involving physical safety, injury, an accident, assault, harassment, a minor at risk, or a serious threat. Do not reply to the customer and do not make any promises. Write one clear internal note summarizing what happened and what we know, add an urgent tag, move the case to the HQ Only queue, and send a Slack notification to the safety channel so a person picks it up immediately. This goal takes priority over every other goal.</pre>
         <button class="copy-btn" onclick="copyBrief(this)"><span class="ci">⧉</span> Copy goal brief</button>
@@ -439,7 +455,8 @@
         <div class="goal-name"><span class="goal-num">2</span>Lost Item Assistant</div>
         <span class="runs-on">Runs on <b>Lost item</b></span>
       </div>
-      <p class="goal-desc">Drafts the standard "here's how to get your item back" reply using your Help Center, tags the case, and routes it to support. One of your highest-volume, most repetitive request types — perfect for a consistent first response every time. If a lost-item case is really about safety, it hands off to Goal&nbsp;1.</p>
+      <p class="goal-desc">Drafts the standard "here's how to get your item back" reply using your Help Center and tags the case. One of your highest-volume, most repetitive request types — perfect for a consistent first response every time. If a lost-item case is really about safety, it hands off to Goal&nbsp;1.</p>
+      <div class="setup-note"><b>Setup &amp; routing:</b> scope it to the <b>Lost item</b> saved search · tags and drafts the reply in place — <b>no queue change</b> · genuine safety cases are handed to Goal&nbsp;1 (which moves them to <span class="q">HQ Only</span>).</div>
       <div class="goal-brief">
         <pre class="brief-text" hidden>This goal helps riders who left an item in a Lyft vehicle. Draft one friendly, concise reply that walks the rider through reporting a lost item in the Lyft app (open Ride history, select the trip, tap Find Lost Item, then contact the driver), using our Help Center for the exact steps. Match the rider's language. Add a lost-item tag and route the case to the support queue. Never promise the item will be found and never offer compensation. If the message is actually about a safety incident, take no action and let the safety goal handle it.</pre>
         <button class="copy-btn" onclick="copyBrief(this)"><span class="ci">⧉</span> Copy goal brief</button>
@@ -464,7 +481,8 @@
         <div class="goal-name"><span class="goal-num">3</span>Driver Deactivation-Appeal Router</div>
         <span class="runs-on">Runs on <b>Deactivation appeals</b></span>
       </div>
-      <p class="goal-desc">Summarizes each appeal in a clean internal note, tags it, and routes it to the right team so nothing sits unseen. It never promises reinstatement and never states account status — it sets your team up to make the call quickly.</p>
+      <p class="goal-desc">Summarizes each appeal in a clean internal note, tags it, and moves it to your driver-appeals queue so nothing sits unseen. It never promises reinstatement and never states account status — it sets your team up to make the call quickly.</p>
+      <div class="setup-note"><b>Setup &amp; routing:</b> scope it to the <b>Deactivation appeals</b> saved search · moves each appeal into your <span class="q">driver-appeals</span> queue. <span class="warn">If you don't have a dedicated appeals queue yet, create one (e.g. "Driver Appeals") first</span> so the goal has somewhere to send them.</div>
       <div class="goal-brief">
         <pre class="brief-text" hidden>This goal handles drivers appealing a deactivation. Do not reply to the driver. Write a short internal note summarizing the appeal and any details the driver provided, add a deactivation-appeal tag, and route the case to the driver support and appeals queue. Never promise reinstatement, never state or guess the account status, and never share internal reasons for the deactivation.</pre>
         <button class="copy-btn" onclick="copyBrief(this)"><span class="ci">⧉</span> Copy goal brief</button>
@@ -495,6 +513,7 @@
         <span class="runs-on">Runs on your support &amp; DM searches</span>
       </div>
       <p class="goal-desc">For common questions — account access, app help, basic charges, how-to — it drafts one concise reply that cites your Help Center and <b>matches the customer's language</b>. Anything that needs an account lookup, or mentions lost funds, is handed straight to a person. This drops into the exact draft-and-approve flow your team runs today — Sift just writes the first version.</p>
+      <div class="setup-note"><b>Setup &amp; routing:</b> this one <b>needs a scope</b> — point <b>Applies&nbsp;to</b> at your rider support searches (e.g. <span class="q">Twitter DM Queue</span>, <span class="q">Instagram DM Queue</span>, or <b>LUS Support</b>) so it only answers rider questions · drafts in place — <b>no queue change</b>.</div>
       <div class="goal-brief">
         <pre class="brief-text" hidden>This goal answers common rider questions such as account access, app problems, how to use a feature, and basic billing questions. Draft one concise, friendly reply grounded in our Help Center, and match the customer's language. Only say what our Help Center supports; never invent policies, refunds, or steps. If the question needs an account lookup, involves a disputed or unauthorized charge, or mentions lost funds, do not answer it: leave it for a person and add a note explaining what is needed.</pre>
         <button class="copy-btn" onclick="copyBrief(this)"><span class="ci">⧉</span> Copy goal brief</button>
@@ -519,7 +538,8 @@
         <div class="goal-name"><span class="goal-num">5</span>App-Store &amp; Play-Store Review Responder</div>
         <span class="runs-on">Runs on <b>App store</b> → <b>App review</b></span>
       </div>
-      <p class="goal-desc">Sorts each review — bug, performance, feature request, praise, or possible safety — tags it, routes it to the right place, and drafts a short, in-language response for negative reviews. Turns a noisy review stream into organized, ready-to-send replies.</p>
+      <p class="goal-desc">Sorts each review — bug, performance, feature request, praise, or possible safety — tags it, moves it into your App review queue, and drafts a short, in-language response for negative reviews. Turns a noisy review stream into organized, ready-to-send replies.</p>
+      <div class="setup-note"><b>Setup &amp; routing:</b> scope it to the <b>App store</b> saved search · moves reviews into your <span class="q">App review</span> queue as it sorts them · possible safety or lost-money reviews are handed to Goal&nbsp;1.</div>
       <div class="goal-brief">
         <pre class="brief-text" hidden>This goal handles App Store and Google Play reviews. Read each review and classify it as a bug, a performance issue, a feature request, praise, or a possible safety or fund-loss concern, and add the matching tag. Route the case to the right place based on that classification. For negative reviews, draft a short, genuine reply in the reviewer's language that acknowledges the issue and points them to support. Never promise a fix or a timeline. If a review describes lost money or a safety issue, hand it to the safety goal.</pre>
         <button class="copy-btn" onclick="copyBrief(this)"><span class="ci">⧉</span> Copy goal brief</button>
@@ -550,6 +570,7 @@
         <span class="runs-on">Runs on <b>Irrelevant Conversations</b></span>
       </div>
       <p class="goal-desc">Tags and closes conversations that are clearly off-topic or already resolved — but only when it's obviously safe to do so. It never sends a customer message; it just keeps your queues focused on what actually needs a person.</p>
+      <div class="setup-note"><b>Setup &amp; routing:</b> scope it to the <b>Irrelevant Conversations</b> saved search · tags and closes in place — <b>no queue change</b>, and no customer message.</div>
       <div class="goal-brief">
         <pre class="brief-text" hidden>This goal keeps the queues tidy. When a conversation is clearly off-topic, spam, or already resolved, add the matching close-reason tag and close it. Only act when it is obvious; if there is any doubt about whether the issue is resolved, leave it open. Never send a message to the customer.</pre>
         <button class="copy-btn" onclick="copyBrief(this)"><span class="ci">⧉</span> Copy goal brief</button>
